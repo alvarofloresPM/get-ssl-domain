@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Verified domain') {
             steps {
-                sh "nslookup ${params.domain}.processmaker.net | grep '181.188.180.228'"
+                sh "if ! nslookup ${params.domain}.processmaker.net | grep -o '181.188.180.228' then echo successfull ; fi"
             }
         }
         stage('Create domain') {
