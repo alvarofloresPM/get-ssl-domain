@@ -2,17 +2,17 @@ pipeline {
     agent any
 
     stages {
-        stage('Build') {
+        stage('Verified domain') {
             steps {
-                echo 'Building..'
+                sh 'nslookup ${params.domain} | grep 'Address:' | grep -Eo '(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$''
             }
         }
-        stage('Test') {
+        stage('Create domain') {
             steps {
                 echo 'Testing..'
             }
         }
-        stage('Deploy') {
+        stage('CertBot SSL') {
             steps {
                 echo 'Deploying....'
             }
