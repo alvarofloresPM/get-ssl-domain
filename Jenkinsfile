@@ -1,13 +1,6 @@
 pipeline {
     agent any
     
-    def remote = [:]
-    remote.name = 'SSLcert'
-    remote.host = '10.100.8.118'
-    remote.user = 'root'
-    remote.password = ''
-    remote.allowAnyHosts = true
-    
     stages {
         stage('Verifi domain') {
             steps {
