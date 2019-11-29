@@ -4,7 +4,10 @@ pipeline {
     stages {
         stage('Verifi domain') {
             steps {
-                sh "if ! nslookup ${params.domain}.processmaker.net | grep -o '181.188.180.228' ; then error('Aborting the build') ; fi"
+                if (! nslookup ${params.domain}.processmaker.net | grep -o '181.188.180.228') {
+                    autoCancelled = true
+                    error('Aborting the build.')
+                }
             }
         }
         stage('Create domain') {
