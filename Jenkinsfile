@@ -1,6 +1,13 @@
 pipeline {
     agent any
-
+    
+    def remote = [:]
+    remote.name = 'SSLcert'
+    remote.host = '10.100.8.118'
+    remote.user = 'root'
+    remote.password = ''
+    remote.allowAnyHosts = true
+    
     stages {
         stage('Verifi domain') {
             steps {
@@ -9,7 +16,9 @@ pipeline {
         }
         stage('Create domain') {
             steps {
-                echo 'Testing..'
+                sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
+                    sh 'ssh -o StrictHostKeyChecking=no -l ubuntu 10.100.8.118 uname -a'
+            }
             }
         }
         stage('CertBot SSL') {
