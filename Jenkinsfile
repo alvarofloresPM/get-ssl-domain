@@ -10,7 +10,7 @@ pipeline {
         stage('Create domain') {
             steps {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
-                    sh 'ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 /opt/SslScript.sh ${params.IPserver}'
+                    sh "ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 /opt/SslScript.sh ${params.IPserver}"
                 }
             }
         }
