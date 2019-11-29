@@ -12,11 +12,11 @@ pipeline {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
                     sh "ssh -o StrictHostKeyChecking=no -l root ${params.IPserver} /opt/SslScript.sh ${params.IPserver}"
                 }
-                try {
-                   error 'fail on purpose...'
-                } catch (e) {
-                    echo "Caught exception: ${e}"
-                }
+            }
+            try {
+                error 'fail on purpose...'
+            } catch (e) {
+                echo "Caught exception: ${e}"
             }
         }
         stage('CertBot SSL') {
