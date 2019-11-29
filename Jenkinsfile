@@ -10,7 +10,7 @@ pipeline {
         stage('Create domain') {
             steps {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
-                    sh "if ! ssh -o StrictHostKeyChecking=no -l root ${params.IPserver} /opt/SslScript.sh ${params.IPserver} ; then exit 1 ; fi "
+                    sh "if ! ssh -o StrictHostKeyChecking=no -l root ${params.IPserver} /opt/SslScript.sh ${params.IPserver} ; then echo 'FAILURE - the server is down or do not exist' ; exit 1 ; fi "
                 }
             }     
         }
