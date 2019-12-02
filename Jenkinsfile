@@ -10,7 +10,7 @@ pipeline {
         stage('Create domain and SSL CertBot') {
             steps {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
-                    sh "if ! ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 /opt/sslcert/SslScript.sh ${params.IPserver} ${params.domain} ${params.port}; then echo 'FAILURE - the server is down or do not exist' ; exit 1 ; fi "
+                    sh "if ! ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 /opt/sslcert/SslScript.sh ${params.IPserver} ${params.domain} ${params.port} ${params.protocol}; then echo 'FAILURE - the server is down or do not exist' ; exit 1 ; fi "
                 }
             }     
         }
