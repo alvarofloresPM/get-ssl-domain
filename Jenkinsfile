@@ -2,22 +2,24 @@ pipeline {
     agent any
     
     stages {
-        stage('Verifi domain') {
+        stage('Verify domain') {
             steps {
                 sh "if ! nslookup ${params.domain}.processmaker.net | grep -o '181.188.180.228' ; then echo 'FAILURE - the domain do not exist or the ip public is incorrect'  ; exit 1 ; fi"
             }
         }
-        stage('Create domain') {
+        stage('Create domain and SSL CertBot') {
             steps {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
-                    sh "if ! ssh -o StrictHostKeyChecking=no -l root ${params.IPserver} /opt/sslcert/SslScript.sh ${params.IPserver} ; then echo 'FAILURE - the server is down or do not exist' ; exit 1 ; fi "
+                    sh "if ! ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 /opt/sslcert/SslScript.sh ${params.IPserver} ${params.domain}; then echo 'FAILURE - the server is down or do not exist' ; exit 1 ; fi "
                 }
             }     
         }
-        stage('CertBot SSL') {
+        stage('Verify SSL domain') {
             steps {
-                echo 'Deploying....'
-            }
+                sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
+                    sh "if ! ssh -o StrictHostKeyChecking=no -l root 10.100.8.118 nginx -s reload ; then echo 'FAILURE - review .conf file' ; exit 1 ; fi "
+                }
+            }     
         }
     }
 }
