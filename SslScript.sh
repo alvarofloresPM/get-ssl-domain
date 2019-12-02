@@ -1,4 +1,5 @@
-mv /opt/sslcert/template.conf /opt/sslcert/$2.processmaker.net
+rm -rf /opt/sslcert/$2.processmaker.net
+cp /opt/sslcert/template.conf /opt/sslcert/$2.processmaker.net
 sed -i "/server_name template.processmaker.net;/c\server_name $2.processmaker.net;" /opt/sslcert/$2.processmaker.net
 if [[ -z "$3" ]];
 then
