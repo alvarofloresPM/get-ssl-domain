@@ -22,4 +22,26 @@ pipeline {
             }     
         }
     }
+    post {
+        always {
+            slackNotifier(currentBuild.currentResult)
+            cleanWs()
+        }
+        success {  
+            slackNotifier("Successfull")
+            cleanWs()  
+         }  
+         failure {  
+            slackNotifier("Failure")
+            cleanWs();  
+         }  
+         unstable {  
+            slackNotifier("Unstable")
+            cleanWs()  
+         }  
+         changed {  
+            slackNotifier("Status changed")
+            cleanWs()
+         }
+    }
 }
