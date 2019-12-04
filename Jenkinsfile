@@ -2,6 +2,19 @@ pipeline {
     agent any
     
     stages {
+        stage('Slack Notification') {
+            steps {
+            slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            }
+        }
+        stage('Verify Params') {
+            steps {
+                sh "if [[ ! ${params.IPserver} =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then  echo 'FAILURE - IP address' ; exit 1; fi"
+                sh "if [[ ! ${params.port} =~ ^[0-9]+$ ]]; then  echo 'FAILURE - port' ; exit 1; fi"
+                sh "if [[ ! ${params.protocol} =~ ^http|https$ ]]; then  echo 'FAILURE - protocol' ; exit 1; fi"
+                sh "if [[ ! ${params.domain} =~ ^[a-z]+$ ]]; then  echo 'FAILURE - IP domain' ; exit 1; fi"
+            }
+        }
         stage('Verify domain') {
             steps {
                 sh "if ! nslookup ${params.domain}.processmaker.net | grep -o '181.188.180.228' ; then echo 'FAILURE - the domain do not exist or the ip public is incorrect'  ; exit 1 ; fi"
@@ -23,25 +36,17 @@ pipeline {
         }
     }
     post {
-        always {
-            slackNotifier(currentBuild.currentResult)
-            cleanWs()
-        }
         success {  
-            slackNotifier("Successfull")
-            cleanWs()  
+            slackSend color: '#00FF00', message: 'SUCCESSFUL: Job'  
          }  
          failure {  
-            slackNotifier("Failure")
-            cleanWs();  
+            slackSend color: '#FF0000', message: 'FAILED: Job';  
          }  
          unstable {  
-            slackNotifier("Unstable")
-            cleanWs()  
+            slackSend color: '#fff700', message: 'UNSTABLE: Job'
          }  
          changed {  
-            slackNotifier("Status changed")
-            cleanWs()
+            slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
          }
     }
 }
