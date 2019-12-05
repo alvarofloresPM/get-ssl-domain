@@ -9,7 +9,7 @@ pipeline {
         // }
         stage('Verify Params') {
             steps {
-                sh "if [[ ! ${params.IPserver} =~ ^[0-9]+\\.[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then  echo 'FAILURE - IP address' ; exit 1; fi"
+                sh 'if [[ ! ${params.IPserver} =~ ^[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+$ ]]; then  echo "FAILURE - IP address" ; exit 1; fi'
                 sh "if [[ ! ${params.port} =~ ^[0-9]+$ ]]; then  echo 'FAILURE - port' ; exit 1; fi"
                 sh "if [[ ! ${params.protocol} =~ ^http|https$ ]]; then  echo 'FAILURE - protocol' ; exit 1; fi"
                 sh "if [[ ! ${params.domain} =~ ^[a-z]+$ ]]; then  echo 'FAILURE - IP domain' ; exit 1; fi"
