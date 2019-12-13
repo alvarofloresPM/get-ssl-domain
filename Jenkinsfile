@@ -32,7 +32,7 @@ pipeline {
             slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.domain}.processmaker.net domain was created" 
          }  
          failure {  
-            slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more datils';  
+            slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details';  
          }  
          unstable {  
             slackSend color: '#fff700', message: 'UNSTABLE: Job'
