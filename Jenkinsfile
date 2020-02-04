@@ -12,6 +12,14 @@ pipeline {
                 sh "if ! nslookup ${params.SubDomain}.${params.domain} | grep -o '181.188.180.228' ; then echo 'FAILURE - the domain do not exist or the ip public is incorrect'  ; exit 1 ; fi"
             }
         }
+        stage('Verify if already exist the configuration') {
+            steps {
+                sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
+                    sh "if [[ -f /etc/nginx/conf.d/${params.SubDomain}_processmaker_net.conf ]]; then echo 'FAILURE domain already is configurated' ; exit 1 ; fi"
+                    sh "if [[ -f /etc/nginx/conf.d/${params.SubDomain}_pm_processmaker_net.conf ]]; then echo 'FAILURE domain already is configurated' ; exit 1 ; fi"
+                }
+            }     
+        }
         stage('Create domain and SSL CertBot') {
             steps {
                 sshagent (credentials: ['4326e3ee-90e1-4e8f-ad31-084a0cbec30d']) {
