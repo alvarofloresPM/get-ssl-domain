@@ -3,7 +3,6 @@ domain=$(echo "$domain" | tr '[:upper:]' '[:lower:]')
 subdomain=$(echo "$2" | tr '[:upper:]' '[:lower:]')
 rm -rf /opt/sslcert/$domain.conf
 if [[ -f /etc/nginx/conf.d/$domain.conf ]]; then exit 1 ; fi
-cp /opt/sslcert/template.conf /opt/sslcert/$domain.conf
 if [[ $5 = "false" ]]
 then
         cp /opt/sslcert/template.conf /opt/sslcert/$domain.conf ;
@@ -14,6 +13,7 @@ fi
 sed -i "/server_name template.processmaker.net;/c\server_name $subdomain;" /opt/sslcert/$domain.conf
 sed -i "/return 301 https://template.processmaker.net\$request_uri;/c\return 301 https://$subdomain\$request_uri;" /opt/sslcert/$domain.conf
 sed -i "/proxy_pass              http:\/\/10.100.100.100;/c\proxy_pass              $4:\/\/$1:$3;" /opt/sslcert/$domain.conf
+if  [[ $5 = "true" ]] ; then sed -i "/allow all;/c\allow 172.16.0.0/16; allow 10.100.0.0/16;" /opt/sslcert/$domain.conf ; fi
 
 mv /opt/sslcert/$domain.conf /etc/nginx/conf.d/
 certbot --nginx -d $subdomain -m devops@processmaker.net  --agree-tos <<EOF
