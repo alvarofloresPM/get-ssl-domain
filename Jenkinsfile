@@ -4,7 +4,7 @@ pipeline {
     stages {
          stage('Slack Notification') {
              steps {
-             slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+             //slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
              }
          }
         stage('Verify domain') {
@@ -29,16 +29,16 @@ pipeline {
     }
     post {
          success {  
-             slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain was created" 
+             //slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain was created" 
           }  
           failure {  
-             slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details'; 
+             //slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details'; 
           }  
           unstable {  
-             slackSend color: '#fff700', message: 'UNSTABLE: Job'
+             //slackSend color: '#fff700', message: 'UNSTABLE: Job'
           }  
           changed {  
-             slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
+             //slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
           }
     }
 }
