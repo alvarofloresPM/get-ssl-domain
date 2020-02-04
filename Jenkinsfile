@@ -49,4 +49,4 @@ pipeline {
 //              //slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
 //           }
 //     }
-// }
+ }
