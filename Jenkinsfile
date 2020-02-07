@@ -29,7 +29,7 @@ pipeline {
     }
     post {
          success {  
-             slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain was created" 
+             slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain has been created" 
           }  
           failure {  
              slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details'; 
