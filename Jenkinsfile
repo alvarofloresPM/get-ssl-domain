@@ -3,9 +3,9 @@ pipeline {
     
     stages {
          stage('Slack Notification') {
-             steps {
-                slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-             }
+            //  steps {
+            //     slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+            //  }
          }
         stage('Verify domain') {
             steps {
