@@ -2,11 +2,11 @@ pipeline {
     agent any
     
     stages {
-        //  stage('Slack Notification') {
-        //     //  steps {
-        //     //     slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
-        //     //  }
-        //  }
+        stage('Slack Notification') {
+           steps {
+              slackSend color: '#009623', message: "STARTED: ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"
+           }
+        }
         stage('Verify domain') {
             steps {
                 sh "if ! nslookup ${params.SubDomain}.${params.domain} | grep -o '181.188.180.228' ; then echo 'FAILURE - the domain do not exist or the ip public is incorrect'  ; exit 1 ; fi"
@@ -27,18 +27,18 @@ pipeline {
             }     
         }
     }
-    // post {
-    //      success {  
-    //          slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain has been created" 
-    //       }  
-    //       failure {  
-    //          slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details'; 
-    //       }  
-    //       unstable {  
-    //          slackSend color: '#fff700', message: 'UNSTABLE: Job'
-    //       }  
-    //       changed {  
-    //          slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
-    //       }
-    // }
+    post {
+         success {  
+             slackSend color: '#00FF00', message: "SUCCESSFUL: Job, ${params.SubDomain}.${params.domain} domain has been created" 
+          }  
+          failure {  
+             slackSend color: '#FF0000', message: 'FAILED: Job, check logs for more details'; 
+          }  
+          unstable {  
+             slackSend color: '#fff700', message: 'UNSTABLE: Job'
+          }  
+          changed {  
+             slackSend color: '#000dff', message: 'STATUS CHANGED: Job'
+          }
+    }
  }
